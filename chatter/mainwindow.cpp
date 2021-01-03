@@ -35,19 +35,31 @@ void MainWindow::on_my_login_clicked()
     QString _ID=ui->ID_Edit->text();
     QString Pword=ui->password_Edit->text();
 
-    QString s=QString("select * from user where userName='%1' and userPwd='%2'").arg(_ID).arg(Pword);
+    //search 用于在数据库中查找未登录账号
+    QString search=QString("select * from user where userName='%1' and userPwd='%2' and status='false' ").arg(_ID).arg(Pword);
+    //if_login 用于判断是否已经登录
+    QString if_login=QString("select * from user where userName='%1' and userPwd='%2' and status='true' ").arg(_ID).arg(Pword);
+    //update 用于登录后更新登录状态
+    QString update=QString("update user set status='true' where userName='%1';").arg(_ID);
     QSqlQuery query;
-    query.exec(s);
+    query.exec(search);
     if(query.first())
     {
+        //更新登录状态
+        query.exec(update);
         //关闭现有窗口，进入登录界面
         login * v=new login();
         v->show();
         this->close();
         qDebug()<<"登录成功"<<endl;
     }
+    else if(query.exec(if_login))
+    {
+        QMessageBox::warning(NULL,"Error","当前用户已经登录，请勿重复登录！！！");
+    }
     else
     {
+
         QMessageBox::warning(NULL,"Error","登录失败，用户名或密码错误！！！");
     }
 }

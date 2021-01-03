@@ -80,12 +80,16 @@ void myregister::on_ackButton_clicked()
             if(IsEnglish(_ID))
             {
                 qDebug()<<"全是英文，符合要求"<<endl;
-                QString i=QString("insert into user values ('%1','%2','%3','%4'); ").arg(_ID).arg(Pword).arg(_stdID).arg(_status);
-                QString S =QString("select * from user where userName='%1' ").arg(_ID);
+                //insert 用于在数据库中建立账号
+                QString insert=QString("insert into user values ('%1','%2','%3','%4'); ").arg(_ID).arg(Pword).arg(_stdID).arg(_status);
+                //search 用于在数据库中查找未登录账号
+                QString search=QString("select * from user where userName='%1' ").arg(_ID);
                 QSqlQuery query;
-                if(query.exec(i))
+
+                //数据库中userName、userNum的属性为unique;值相同会插入失败
+                if(query.exec(insert))
                     QMessageBox::information(NULL, "注册成功", "注册成功！！！", QMessageBox::Yes);
-                else if(query.exec(S)&&query.first())
+                else if(query.exec(search)&&query.first())
                     QMessageBox::warning(NULL,"Error","账号重复，请重试！！！");
                 else
                     QMessageBox::warning(NULL,"Error","学号重复，请重试！！！");
