@@ -1,1 +1,1 @@
-# just learn git
+# chatter app
