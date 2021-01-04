@@ -20,7 +20,8 @@ class myregister : public QDialog
 public:
     explicit myregister(QWidget *parent = nullptr);
     ~myregister();
-    bool IsEnglish(QString &qstrSrc);
+    bool IsEnglish_or_Num(QString &qstrSrc);
+    bool IsNum(QString &qstrSrc);
 protected:
     void paintEvent(QPaintEvent *event);
 private slots:
