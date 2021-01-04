@@ -43,25 +43,31 @@ void MainWindow::on_my_login_clicked()
     QString update=QString("update user set status='true' where userName='%1';").arg(_ID);
     QSqlQuery query;
     query.exec(search);
-    if(query.first())
-    {
-        //更新登录状态
-        query.exec(update);
-        //关闭现有窗口，进入登录界面
-        login * v=new login();
-        v->_ID=_ID;
-        v->show();
-        this->close();
-        qDebug()<<"登录成功"<<endl;
-    }
-    else if(query.exec(if_login))
-    {
-        QMessageBox::warning(NULL,"Error","当前用户已经登录，请勿重复登录！！！");
+    if(IsEnglish_or_Num(_ID)&&IsEnglish_or_Num(Pword))//判断输入是否合法，防止sql注入
+    {   if(query.first())
+        {
+            //更新登录状态
+            query.exec(update);
+            //关闭现有窗口，进入登录界面
+            login * v=new login();
+            v->_ID=_ID;
+            v->show();
+            this->close();
+            qDebug()<<"登录成功"<<endl;
+        }
+        else if(query.exec(if_login)&&query.first())
+        {
+            QMessageBox::warning(NULL,"Error","当前用户已经登录，请勿重复登录！！！");
+        }
+        else
+        {
+
+            QMessageBox::warning(NULL,"Error","登录失败，用户名或密码错误！！！");
+        }
     }
     else
     {
-
-        QMessageBox::warning(NULL,"Error","登录失败，用户名或密码错误！！！");
+        QMessageBox::warning(NULL,"Error","登录失败，输入字符不符合要求！！！");
     }
 }
 
@@ -73,6 +79,45 @@ void MainWindow::on_my_register_clicked()
     v->show();
 }
 
+//判断输入的字符是否全是英文+数字
+bool MainWindow::IsEnglish_or_Num(QString &qstrSrc)
+{
+    QByteArray ba=qstrSrc.toLatin1();
+    const char *s=ba.data();
+    bool bret=true;
+
+    while (*s) {
+        if((*s>='A'&&*s<='Z')||(*s>='a'&&*s<='z')||(*s>='0'&&*s<='9'))
+        {
+        }
+        else
+        {
+            bret=false;
+            break;
+        }
+        s++;
+    }
+    return bret;
+}
+bool MainWindow::IsNum(QString &qstrSrc)//判断学号是否是数字
+{
+    QByteArray ba=qstrSrc.toLatin1();
+    const char *s=ba.data();
+    bool bret=true;
+
+    while (*s) {
+        if((*s>='0'&&*s<='9'))
+        {
+        }
+        else
+        {
+            bret=false;
+            break;
+        }
+        s++;
+    }
+    return bret;
+}
 
 
 //设置背景
@@ -81,3 +126,4 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.drawPixmap(0,0,width(),height(),QPixmap(":/new/prefix1/background/sea.jpg"));
 }
+
