@@ -81,7 +81,7 @@ void myregister::on_ackButton_clicked()
             {
                 qDebug()<<"全是英文，符合要求"<<endl;
                 //insert 用于在数据库中建立账号
-                QString insert=QString("insert into user values ('%1','%2','%3','%4'); ").arg(_ID).arg(Pword).arg(_stdID).arg(_status);
+                QString insert=QString("insert into user values ('%1','%2','%3','%4','%5','%6'); ").arg(_ID).arg(Pword).arg(_stdID).arg(_status).arg(0).arg(NULL);
                 //search 用于在数据库中查找未登录账号
                 QString search=QString("select * from user where userName='%1' ").arg(_ID);
                 QSqlQuery query;
