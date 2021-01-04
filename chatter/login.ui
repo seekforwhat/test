@@ -1,9 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>login</class>
- <widget name="login" class="QWidget">
+ <widget class="QWidget" name="login">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -15,7 +13,20 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QPushButton" name="offButton">
+   <property name="geometry">
+    <rect>
+     <x>321</x>
+     <y>253</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </widget>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

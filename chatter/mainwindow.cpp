@@ -49,6 +49,7 @@ void MainWindow::on_my_login_clicked()
         query.exec(update);
         //关闭现有窗口，进入登录界面
         login * v=new login();
+        v->_ID=_ID;
         v->show();
         this->close();
         qDebug()<<"登录成功"<<endl;
