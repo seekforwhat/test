@@ -3,7 +3,9 @@
 * 建立数据库中的user表  
 
 ```
-create table user(userName varchar(20) NOT NULL unique,userPwd varchar(20) NOT NULL, usernum varchar(20) NOT NULL unique,status varchar(20) not null,friendsNum int(20) not null default 0,friends varchar(1100) default null);
+create table user(userName varchar(20) NOT NULL unique,userPwd varchar(20) NOT NULL, 
+usernum varchar(20) NOT NULL unique,status varchar(20) not null,friendsNum int(20) not null default 0, 
+friends varchar(1100) default null);
 ```  
 
 现在数据库的名字是temp 
