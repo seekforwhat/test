@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    bool IsEnglish_or_Num(QString &qstrSrc);
+    bool IsNum(QString &qstrSrc);
 
 protected:
     void paintEvent(QPaintEvent *event);
