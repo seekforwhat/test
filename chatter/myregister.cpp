@@ -26,8 +26,8 @@ myregister::myregister(QWidget *parent) :
         ui->again->setFont(log_font);
         ui->stdID->setFont(log_font);
         //提示信息
-        ui->ID_Edit->setPlaceholderText("请输入3-10位英文字符");
-        ui->password_Edit->setPlaceholderText("请输入6-12位字符");
+        ui->ID_Edit->setPlaceholderText("请输入3-10位英文或数字字符");
+        ui->password_Edit->setPlaceholderText("请输入6-12位英文或数字字符");
         ui->again_Edit->setPlaceholderText("请再次输入密码");
         ui->stdID_Edit->setPlaceholderText("请输入9或10位学号");
         //密码格式
@@ -76,10 +76,10 @@ void myregister::on_ackButton_clicked()
             {
                 QMessageBox::information(this,"警告","请输入正确的学号",QMessageBox::Ok);
             }
-            //对输入字符进行检查
-            if(IsEnglish(_ID))
+            //对输入字符进行检查（账号，密码，学号）
+            else if(IsEnglish_or_Num(_ID)&&IsEnglish_or_Num(Pword)&&IsNum(_stdID))
             {
-                qDebug()<<"全是英文，符合要求"<<endl;
+                qDebug()<<"符合要求"<<endl;
                 //insert 用于在数据库中建立账号
                 QString insert=QString("insert into user values ('%1','%2','%3','%4','%5','%6'); ").arg(_ID).arg(Pword).arg(_stdID).arg(_status).arg(0).arg(NULL);
                 //search 用于在数据库中查找未登录账号
@@ -96,7 +96,7 @@ void myregister::on_ackButton_clicked()
             }
             else
             {
-                QMessageBox::information(this,"提示","账号需要是英文！",QMessageBox::Ok);
+                QMessageBox::information(this,"提示","账号和密码需要是英文或数字，学号需要是数字！",QMessageBox::Ok);
             }
 
         }
@@ -105,15 +105,34 @@ void myregister::on_ackButton_clicked()
         QMessageBox::warning(NULL,"Error","密码不重复，请重试！！！");
 }
 
-//判断输入的字符是否全是英文
-bool myregister::IsEnglish(QString &qstrSrc)
+//判断输入的字符是否全是英文+数字
+bool myregister::IsEnglish_or_Num(QString &qstrSrc)
 {
     QByteArray ba=qstrSrc.toLatin1();
     const char *s=ba.data();
     bool bret=true;
 
     while (*s) {
-        if((*s>='A'&&*s<='Z')||(*s>='a'&&*s<='z'))
+        if((*s>='A'&&*s<='Z')||(*s>='a'&&*s<='z')||(*s>='0'&&*s<='9'))
+        {
+        }
+        else
+        {
+            bret=false;
+            break;
+        }
+        s++;
+    }
+    return bret;
+}
+bool myregister::IsNum(QString &qstrSrc)//判断学号是否是数字
+{
+    QByteArray ba=qstrSrc.toLatin1();
+    const char *s=ba.data();
+    bool bret=true;
+
+    while (*s) {
+        if((*s>='0'&&*s<='9'))
         {
         }
         else
@@ -132,3 +151,4 @@ void myregister::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.drawPixmap(0,0,width(),height(),QPixmap(":/new/prefix1/background/sea.jpg"));
 }
+
