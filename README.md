@@ -4,7 +4,7 @@
 
 ```
 create table user(userName varchar(20) NOT NULL unique,userPwd varchar(20) NOT NULL, 
-usernum varchar(20) NOT NULL unique,status varchar(20) not null,friendsNum int(20) not null default 0, 
+userNum varchar(20) NOT NULL unique,status varchar(20) not null,friendsNum int(20) not null default 0, 
 friends varchar(1100) default null);
 ```  
 
